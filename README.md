@@ -1,4 +1,4 @@
-## go rpc test server and client on TCP
+## go rpc test TCP server and client
 
 How to build and run server:
 ```
