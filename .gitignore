@@ -1,4 +1,4 @@
 .idea
 *.iml
-server-rpc
-client-rpc
+server/server
+client/client

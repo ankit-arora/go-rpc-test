@@ -10,7 +10,6 @@ import (
 	"net"
 	"net/rpc"
 	"os"
-	"time"
 )
 
 type Args struct {
@@ -25,7 +24,7 @@ type Arith int
 
 func (t *Arith) Multiply(args *Args, reply *int) error {
 	*reply = args.A * args.B
-	time.Sleep(50 * time.Second)
+	//time.Sleep(50 * time.Second)
 	return nil
 }
 
@@ -41,7 +40,8 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
 func main() {
 
 	arith := new(Arith)
-	rpc.Register(arith)
+	err := rpc.Register(arith)
+	checkError(err)
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp", ":1234")
 	checkError(err)
