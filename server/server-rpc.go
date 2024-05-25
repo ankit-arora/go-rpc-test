@@ -12,6 +12,8 @@ import (
 	"os"
 )
 
+//Define shared types for data communication
+
 type Args struct {
 	A, B int
 }
@@ -19,6 +21,8 @@ type Args struct {
 type Quotient struct {
 	Quo, Rem int
 }
+
+//Define functions called by the client on the server
 
 type Arith int
 
@@ -40,15 +44,18 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
 func main() {
 
 	arith := new(Arith)
+	//registers the type Arith to be used with rpc
 	err := rpc.Register(arith)
 	checkError(err)
 
 	tcpAddr, err := net.ResolveTCPAddr("tcp", ":1234")
 	checkError(err)
 
+	//server starts listening on port 1234
 	listener, err := net.ListenTCP("tcp", tcpAddr)
 	checkError(err)
 
+	//accepts a connection request and serves it on a different goroutine
 	for {
 		conn, err := listener.Accept()
 		if err != nil {

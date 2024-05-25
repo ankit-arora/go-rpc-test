@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+//Define shared types for data communication
+
 type Args struct {
 	A, B int
 }
@@ -28,17 +30,19 @@ func main() {
 	}
 	service := os.Args[1]
 	log.Printf("start: %d\n", time.Now().Unix())
+	//creates a connection request
 	client, err := rpc.Dial("tcp", service)
 	if err != nil {
 		log.Fatal("dialing:", err)
 	}
-	// Synchronous call
+	// Args is a common type used for sending arguments to the server
 	args := Args{17, 8}
 	var reply int
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func(wg *sync.WaitGroup) {
 		defer wg.Done()
+		//calls the Multiply function of the Arith type on the server and gets the data back in reply
 		err = client.Call("Arith.Multiply", args, &reply)
 		if err != nil {
 			log.Fatal("arith error:", err)
@@ -46,7 +50,9 @@ func main() {
 		fmt.Printf("Arith: %d*%d=%d\n", args.A, args.B, reply)
 	}(&wg)
 
+	//Quotient is a shared type that is used to get data back from the server
 	var quot Quotient
+	//calls the Divide function of the Arith type on the server and gets the data back in quot
 	err = client.Call("Arith.Divide", args, &quot)
 	if err != nil {
 		log.Fatal("arith error:", err)
