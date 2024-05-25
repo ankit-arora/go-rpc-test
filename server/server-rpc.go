@@ -43,8 +43,8 @@ func (t *Arith) Divide(args *Args, quo *Quotient) error {
 
 func main() {
 
+	//creates and registers the type Arith to be used with rpc
 	arith := new(Arith)
-	//registers the type Arith to be used with rpc
 	err := rpc.Register(arith)
 	checkError(err)
 
