@@ -1,3 +1,3 @@
 module github.com/ankit-arora/go-rpc-test
 
-go 1.14
+go 1.22
